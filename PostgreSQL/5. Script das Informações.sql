@@ -7,6 +7,8 @@ INSERT INTO elmasri.funcionario (cpf,primeiro_nome,nome_meio,ultimo_nome,data_na
 	 ('33344555587','Fernando','T','Wong','1955-12-08','Rua da Lapa, 34, São Paulo, SP','m',40000.00,'88866555576',5),
 	 ('88866555576','Jorge','E','Brito','1937-11-10','Rua do Horto, 35, São Paulo','m',55000.00,NULL,1),
 	 ('99988777767','Alice','J','Zelaya','1968-01-19','Rua Souza Lima, 35, Curitiba, PR','f',25000.00,'98765432168',4);
+	 
+ALTER TABLE elmasri.funcionario ADD CONSTRAINT fk_cpf_supervisor FOREIGN KEY (cpf_supervisor) REFERENCES elmasri.funcionario(cpf);
 
 INSERT INTO elmasri.departamento (numero_departamento,nome_departamento,cpf_gerente,data_inicio_gerente) VALUES
 	 (4,'Admininstração','98765432168','1995-01-01'),
