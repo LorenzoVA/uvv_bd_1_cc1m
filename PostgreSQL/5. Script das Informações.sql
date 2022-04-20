@@ -47,8 +47,7 @@ INSERT INTO elmasri.trabalha_em (cpf_funcionario,numero_projeto,horas) VALUES
 	 ('33344555587',3,10.0),
 	 ('33344555587',10,10.0),
 	 ('33344555587',20,10.0),
-	 ('99988777767',30,30.0);
-INSERT INTO elmasri.trabalha_em (cpf_funcionario,numero_projeto,horas) VALUES
+	 ('99988777767',30,30.0),
 	 ('99988777767',10,10.0),
 	 ('98798798733',10,35.0),
 	 ('98798798733',30,5.0),
