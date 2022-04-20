@@ -1,96 +1,3 @@
--- Table: elmasri.departamento
-
--- DROP TABLE IF EXISTS elmasri.departamento;
-
-CREATE TABLE IF NOT EXISTS elmasri.departamento
-(
-    numero_departamento integer NOT NULL,
-    nome_departamento character varying(15) COLLATE pg_catalog."default" NOT NULL,
-    cpf_gerente character(11) COLLATE pg_catalog."default" NOT NULL,
-    data_inicio_gerente date,
-    CONSTRAINT departamento_pkey PRIMARY KEY (numero_departamento),
-    CONSTRAINT departamento_nome_departamento_key UNIQUE (nome_departamento),
-    CONSTRAINT fk_cpf_gerente FOREIGN KEY (cpf_gerente)
-        REFERENCES elmasri.funcionario (cpf) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS elmasri.departamento
-    OWNER to lorenzo;
-
-COMMENT ON TABLE elmasri.departamento
-    IS 'Tabela departamento';
-
-COMMENT ON COLUMN elmasri.departamento.numero_departamento
-    IS 'Número do departamento';
-
-COMMENT ON COLUMN elmasri.departamento.nome_departamento
-    IS 'Nome do departamento';
-
-COMMENT ON COLUMN elmasri.departamento.cpf_gerente
-    IS 'CPF do gerente';
-
-COMMENT ON COLUMN elmasri.departamento.data_inicio_gerente
-    IS 'Data do início do gerente';
-COMMENT ON CONSTRAINT departamento_pkey ON elmasri.departamento
-    IS 'Chave primária departamento';
-
-COMMENT ON CONSTRAINT departamento_nome_departamento_key ON elmasri.departamento
-    IS 'Chave única do nome do departamento';
-
--- Table: elmasri.dependente
-
--- DROP TABLE IF EXISTS elmasri.dependente;
-
-CREATE TABLE IF NOT EXISTS elmasri.dependente
-(
-    cpf_funcionario character(11) COLLATE pg_catalog."default" NOT NULL,
-    nome_dependente character varying(15) COLLATE pg_catalog."default" NOT NULL,
-    sexo character(1) COLLATE pg_catalog."default",
-    data_nascimento date,
-    parentesco character varying(15) COLLATE pg_catalog."default",
-    CONSTRAINT dependente_pkey PRIMARY KEY (nome_dependente),
-    CONSTRAINT fk_cpf_funcionario FOREIGN KEY (cpf_funcionario)
-        REFERENCES elmasri.funcionario (cpf) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-    CONSTRAINT m_ou_f CHECK (sexo = ANY (ARRAY['m'::bpchar, 'f'::bpchar]))
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS elmasri.dependente
-    OWNER to lorenzo;
-
-COMMENT ON TABLE elmasri.dependente
-    IS 'Tabela dependente';
-
-COMMENT ON COLUMN elmasri.dependente.cpf_funcionario
-    IS 'CPF do funcionário';
-
-COMMENT ON COLUMN elmasri.dependente.nome_dependente
-    IS 'Nome do dependente';
-
-COMMENT ON COLUMN elmasri.dependente.sexo
-    IS 'Sexo do dependente';
-
-COMMENT ON COLUMN elmasri.dependente.data_nascimento
-    IS 'Data de nascimento do dependente';
-
-COMMENT ON COLUMN elmasri.dependente.parentesco
-    IS 'Parentesco do dependente com o funcionário';
-COMMENT ON CONSTRAINT dependente_pkey ON elmasri.dependente
-    IS 'Chave primária dependente';
-
-COMMENT ON CONSTRAINT fk_cpf_funcionario ON elmasri.dependente
-    IS 'Chave estrangeira CPF do funcionário';
-
-COMMENT ON CONSTRAINT m_ou_f ON elmasri.dependente
-    IS 'Regra de caractere';
-
 -- Table: elmasri.funcionario
 
 -- DROP TABLE IF EXISTS elmasri.funcionario;
@@ -158,6 +65,49 @@ COMMENT ON CONSTRAINT funcionario_pkey ON elmasri.funcionario
 COMMENT ON CONSTRAINT m_ou_f ON elmasri.funcionario
     IS 'Regra para ter apenas os dois caracteres';
 
+-- Table: elmasri.departamento
+
+-- DROP TABLE IF EXISTS elmasri.departamento;
+
+CREATE TABLE IF NOT EXISTS elmasri.departamento
+(
+    numero_departamento integer NOT NULL,
+    nome_departamento character varying(15) COLLATE pg_catalog."default" NOT NULL,
+    cpf_gerente character(11) COLLATE pg_catalog."default" NOT NULL,
+    data_inicio_gerente date,
+    CONSTRAINT departamento_pkey PRIMARY KEY (numero_departamento),
+    CONSTRAINT departamento_nome_departamento_key UNIQUE (nome_departamento),
+    CONSTRAINT fk_cpf_gerente FOREIGN KEY (cpf_gerente)
+        REFERENCES elmasri.funcionario (cpf) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS elmasri.departamento
+    OWNER to lorenzo;
+
+COMMENT ON TABLE elmasri.departamento
+    IS 'Tabela departamento';
+
+COMMENT ON COLUMN elmasri.departamento.numero_departamento
+    IS 'Número do departamento';
+
+COMMENT ON COLUMN elmasri.departamento.nome_departamento
+    IS 'Nome do departamento';
+
+COMMENT ON COLUMN elmasri.departamento.cpf_gerente
+    IS 'CPF do gerente';
+
+COMMENT ON COLUMN elmasri.departamento.data_inicio_gerente
+    IS 'Data do início do gerente';
+COMMENT ON CONSTRAINT departamento_pkey ON elmasri.departamento
+    IS 'Chave primária departamento';
+
+COMMENT ON CONSTRAINT departamento_nome_departamento_key ON elmasri.departamento
+    IS 'Chave única do nome do departamento';
+    
 -- Table: elmasri.localizacoes_departamento
 
 -- DROP TABLE IF EXISTS elmasri.localizacoes_departamento;
@@ -191,7 +141,7 @@ COMMENT ON CONSTRAINT localizacoes_departamento_pkey ON elmasri.localizacoes_dep
 
 COMMENT ON CONSTRAINT fk_numero_departamento ON elmasri.localizacoes_departamento
     IS 'Chave estrangeira número do departamento';
-
+    
 -- Table: elmasri.projeto
 
 -- DROP TABLE IF EXISTS elmasri.projeto;
@@ -237,6 +187,56 @@ COMMENT ON CONSTRAINT projeto_nome_projeto_key ON elmasri.projeto
 
 COMMENT ON CONSTRAINT fk_numero_departamento ON elmasri.projeto
     IS 'Chave estrangeira  número do departamento';
+
+-- Table: elmasri.dependente
+
+-- DROP TABLE IF EXISTS elmasri.dependente;
+
+CREATE TABLE IF NOT EXISTS elmasri.dependente
+(
+    cpf_funcionario character(11) COLLATE pg_catalog."default" NOT NULL,
+    nome_dependente character varying(15) COLLATE pg_catalog."default" NOT NULL,
+    sexo character(1) COLLATE pg_catalog."default",
+    data_nascimento date,
+    parentesco character varying(15) COLLATE pg_catalog."default",
+    CONSTRAINT dependente_pkey PRIMARY KEY (nome_dependente),
+    CONSTRAINT fk_cpf_funcionario FOREIGN KEY (cpf_funcionario)
+        REFERENCES elmasri.funcionario (cpf) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT m_ou_f CHECK (sexo = ANY (ARRAY['m'::bpchar, 'f'::bpchar]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS elmasri.dependente
+    OWNER to lorenzo;
+
+COMMENT ON TABLE elmasri.dependente
+    IS 'Tabela dependente';
+
+COMMENT ON COLUMN elmasri.dependente.cpf_funcionario
+    IS 'CPF do funcionário';
+
+COMMENT ON COLUMN elmasri.dependente.nome_dependente
+    IS 'Nome do dependente';
+
+COMMENT ON COLUMN elmasri.dependente.sexo
+    IS 'Sexo do dependente';
+
+COMMENT ON COLUMN elmasri.dependente.data_nascimento
+    IS 'Data de nascimento do dependente';
+
+COMMENT ON COLUMN elmasri.dependente.parentesco
+    IS 'Parentesco do dependente com o funcionário';
+COMMENT ON CONSTRAINT dependente_pkey ON elmasri.dependente
+    IS 'Chave primária dependente';
+
+COMMENT ON CONSTRAINT fk_cpf_funcionario ON elmasri.dependente
+    IS 'Chave estrangeira CPF do funcionário';
+
+COMMENT ON CONSTRAINT m_ou_f ON elmasri.dependente
+    IS 'Regra de caractere';
 
 -- Table: elmasri.trabalha_em
 
