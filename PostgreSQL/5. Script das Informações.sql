@@ -13,7 +13,7 @@ INSERT INTO elmasri.departamento (numero_departamento,nome_departamento,cpf_gere
 	 (1,'Matriz','88866555576','1981-06-19'),
 	 (5,'Pesquisa','33344555587','1988-05-22');
 	 
-INSERT INTO elmasri.localizacoes_departamento ("local",numero_departamento) VALUES
+INSERT INTO elmasri.localizacoes_departamento (local,numero_departamento) VALUES
 	 ('São Paulo',1),
 	 ('Mauá',4),
 	 ('Santo André',5),
