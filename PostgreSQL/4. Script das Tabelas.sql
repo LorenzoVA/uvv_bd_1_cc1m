@@ -15,8 +15,6 @@ CREATE TABLE IF NOT EXISTS elmasri.funcionario
     cpf_supervisor character(11) COLLATE pg_catalog."default",
     numero_departamento integer NOT NULL,
     CONSTRAINT funcionario_pkey PRIMARY KEY (cpf),
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
     CONSTRAINT m_ou_f CHECK (sexo = ANY (ARRAY['m'::bpchar, 'f'::bpchar]))
 )
 
