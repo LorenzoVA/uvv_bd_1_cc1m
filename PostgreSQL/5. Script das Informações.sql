@@ -1,17 +1,3 @@
-INSERT INTO elmasri.departamento (numero_departamento,nome_departamento,cpf_gerente,data_inicio_gerente) VALUES
-	 (4,'Admininstração','98765432168','1995-01-01'),
-	 (1,'Matriz','88866555576','1981-06-19'),
-	 (5,'Pesquisa','33344555587','1988-05-22');
-
-INSERT INTO elmasri.dependente (cpf_funcionario,nome_dependente,sexo,data_nascimento,parentesco) VALUES
-	 ('33344555587','Alicia','f','1986-04-05','Filha'),
-	 ('33344555587','Tiago','m','1983-10-25','Filho'),
-	 ('33344555587','Janaína','f','1958-05-03','Esposa'),
-	 ('98765432168','Antonio','m','1942-02-28','Marido'),
-	 ('12345678966','Michael','m','1988-01-04','Filho'),
-	 ('12345678966','Alícia','f','1988-12-30','Filha'),
-	 ('12345678966','Elizabeth','f','1967-05-05','Esposa');
-
 INSERT INTO elmasri.funcionario (cpf,primeiro_nome,nome_meio,ultimo_nome,data_nascimento,endereco,sexo,salario,cpf_supervisor,numero_departamento) VALUES
 	 ('98765432168','Jennifer','D','Souza','1946-06-20','Av.Arthur de Lima, 54 , Santo André , SP','f',43000.00,'88866555576',4),
 	 ('66688444476','Ronaldo','K','Lima','1962-09-15','Rua Rebouças, 65, Piracicaba, SP','m',38000.00,'33344555587',5),
@@ -22,13 +8,18 @@ INSERT INTO elmasri.funcionario (cpf,primeiro_nome,nome_meio,ultimo_nome,data_na
 	 ('88866555576','Jorge','E','Brito','1937-11-10','Rua do Horto, 35, São Paulo','m',55000.00,NULL,1),
 	 ('99988777767','Alice','J','Zelaya','1968-01-19','Rua Souza Lima, 35, Curitiba, PR','f',25000.00,'98765432168',4);
 
+INSERT INTO elmasri.departamento (numero_departamento,nome_departamento,cpf_gerente,data_inicio_gerente) VALUES
+	 (4,'Admininstração','98765432168','1995-01-01'),
+	 (1,'Matriz','88866555576','1981-06-19'),
+	 (5,'Pesquisa','33344555587','1988-05-22');
+	 
 INSERT INTO elmasri.localizacoes_departamento ("local",numero_departamento) VALUES
 	 ('São Paulo',1),
 	 ('Mauá',4),
 	 ('Santo André',5),
 	 ('Itu',5),
 	 ('Sao Paulo',5);
-
+	 
 INSERT INTO elmasri.projeto (numero_projeto,nome_projeto,local_projeto,numero_departamento) VALUES
 	 (1,'ProdutoX','Santo André',5),
 	 (2,'ProdutoY','Itu',5),
@@ -36,6 +27,15 @@ INSERT INTO elmasri.projeto (numero_projeto,nome_projeto,local_projeto,numero_de
 	 (10,'Informatização','Mauá',4),
 	 (20,'Reorganização','Sao Paulo',1),
 	 (30,'Novos Benefícios','Mauá',4);
+
+INSERT INTO elmasri.dependente (cpf_funcionario,nome_dependente,sexo,data_nascimento,parentesco) VALUES
+	 ('33344555587','Alicia','f','1986-04-05','Filha'),
+	 ('33344555587','Tiago','m','1983-10-25','Filho'),
+	 ('33344555587','Janaína','f','1958-05-03','Esposa'),
+	 ('98765432168','Antonio','m','1942-02-28','Marido'),
+	 ('12345678966','Michael','m','1988-01-04','Filho'),
+	 ('12345678966','Alícia','f','1988-12-30','Filha'),
+	 ('12345678966','Elizabeth','f','1967-05-05','Esposa');
 
 INSERT INTO elmasri.trabalha_em (cpf_funcionario,numero_projeto,horas) VALUES
 	 ('12345678966',1,32.5),
