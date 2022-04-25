@@ -15,7 +15,9 @@ CREATE TABLE IF NOT EXISTS elmasri.funcionario
     cpf_supervisor character(11) COLLATE pg_catalog."default",
     numero_departamento integer NOT NULL,
     CONSTRAINT funcionario_pkey PRIMARY KEY (cpf),
-    CONSTRAINT m_ou_f CHECK (sexo = ANY (ARRAY['m'::bpchar, 'f'::bpchar]))
+    CONSTRAINT m_ou_f CHECK (sexo = ANY (ARRAY['m'::bpchar, 'f'::bpchar])),
+    CONSTRAINT salario_positivo CHECK (salario >= 0::numeric),
+    CONSTRAINT numero_departamento_positivo CHECK (numero_departamento > 0)
 )
 
 TABLESPACE pg_default;
@@ -55,11 +57,18 @@ COMMENT ON COLUMN elmasri.funcionario.cpf_supervisor
 
 COMMENT ON COLUMN elmasri.funcionario.numero_departamento
     IS 'Numero do departamento do funcionário';
+    
 COMMENT ON CONSTRAINT funcionario_pkey ON elmasri.funcionario
     IS 'Chave Primária';
 
 COMMENT ON CONSTRAINT m_ou_f ON elmasri.funcionario
     IS 'Regra para ter apenas os dois caracteres';
+    
+COMMENT ON CONSTRAINT salario_positivo ON elmasri.funcionario
+    IS 'Número do salário positivo';
+    
+COMMENT ON CONSTRAINT numero_departamento_positivo ON elmasri.funcionario
+    IS 'Número do departamento positivo';
 
 -- Table: elmasri.departamento
 
@@ -76,7 +85,8 @@ CREATE TABLE IF NOT EXISTS elmasri.departamento
     CONSTRAINT fk_cpf_gerente FOREIGN KEY (cpf_gerente)
         REFERENCES elmasri.funcionario (cpf) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT numero_departamento_positivo CHECK (numero_departamento > 0)
 )
 
 TABLESPACE pg_default;
@@ -98,11 +108,15 @@ COMMENT ON COLUMN elmasri.departamento.cpf_gerente
 
 COMMENT ON COLUMN elmasri.departamento.data_inicio_gerente
     IS 'Data do início do gerente';
+    
 COMMENT ON CONSTRAINT departamento_pkey ON elmasri.departamento
     IS 'Chave primária departamento';
 
 COMMENT ON CONSTRAINT departamento_nome_departamento_key ON elmasri.departamento
     IS 'Chave única do nome do departamento';
+    
+COMMENT ON CONSTRAINT numero_departamento_positivo ON elmasri.departamento
+    IS 'Número do departamento positivo';
     
 -- Table: elmasri.localizacoes_departamento
 
@@ -116,7 +130,8 @@ CREATE TABLE IF NOT EXISTS elmasri.localizacoes_departamento
     CONSTRAINT fk_numero_departamento FOREIGN KEY (numero_departamento)
         REFERENCES elmasri.departamento (numero_departamento) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT numero_departamento_positivo CHECK (numero_departamento > 0)
 )
 
 TABLESPACE pg_default;
@@ -132,11 +147,15 @@ COMMENT ON COLUMN elmasri.localizacoes_departamento.local
 
 COMMENT ON COLUMN elmasri.localizacoes_departamento.numero_departamento
     IS 'Número do departamento';
+    
 COMMENT ON CONSTRAINT localizacoes_departamento_pkey ON elmasri.localizacoes_departamento
     IS 'Chave primária localização do departamento';
 
 COMMENT ON CONSTRAINT fk_numero_departamento ON elmasri.localizacoes_departamento
     IS 'Chave estrangeira número do departamento';
+    
+COMMENT ON CONSTRAINT numero_departamento_positivo ON elmasri.localizacoes_departamento
+    IS 'Número do departamento positivo';
     
 -- Table: elmasri.projeto
 
@@ -153,7 +172,9 @@ CREATE TABLE IF NOT EXISTS elmasri.projeto
     CONSTRAINT fk_numero_departamento FOREIGN KEY (numero_departamento)
         REFERENCES elmasri.departamento (numero_departamento) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT numero_projeto_positivo CHECK (numero_projeto > 0),
+    CONSTRAINT numero_departamento_positivo CHECK (numero_departamento > 0)
 )
 
 TABLESPACE pg_default;
@@ -175,6 +196,7 @@ COMMENT ON COLUMN elmasri.projeto.local_projeto
 
 COMMENT ON COLUMN elmasri.projeto.numero_departamento
     IS 'Número do departamento';
+    
 COMMENT ON CONSTRAINT projeto_pkey ON elmasri.projeto
     IS 'Chave primária projeto';
 
@@ -183,6 +205,12 @@ COMMENT ON CONSTRAINT projeto_nome_projeto_key ON elmasri.projeto
 
 COMMENT ON CONSTRAINT fk_numero_departamento ON elmasri.projeto
     IS 'Chave estrangeira  número do departamento';
+    
+COMMENT ON CONSTRAINT numero_projeto_positivo ON elmasri.projeto
+    IS 'Número do projeto positivo';
+    
+COMMENT ON CONSTRAINT numero_departamento_positivo ON elmasri.projeto
+    IS 'Número do departamento positivo';
 
 -- Table: elmasri.dependente
 
@@ -225,6 +253,7 @@ COMMENT ON COLUMN elmasri.dependente.data_nascimento
 
 COMMENT ON COLUMN elmasri.dependente.parentesco
     IS 'Parentesco do dependente com o funcionário';
+    
 COMMENT ON CONSTRAINT dependente_pkey ON elmasri.dependente
     IS 'Chave primária dependente';
 
@@ -250,7 +279,9 @@ CREATE TABLE IF NOT EXISTS elmasri.trabalha_em
     CONSTRAINT trabalha_em_numero_projeto_fkey FOREIGN KEY (numero_projeto)
         REFERENCES elmasri.projeto (numero_projeto) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT numero_projeto_positivo CHECK (numero_projeto > 0),
+    CONSTRAINT horas_positivo CHECK (horas >= 0::numeric)
 )
 
 TABLESPACE pg_default;
@@ -272,5 +303,12 @@ COMMENT ON COLUMN elmasri.trabalha_em.horas
 
 COMMENT ON CONSTRAINT trabalha_em_cpf_funcionario_fkey ON elmasri.trabalha_em
     IS 'Chave estrangeira CPF do funcionário';
+    
 COMMENT ON CONSTRAINT trabalha_em_numero_projeto_fkey ON elmasri.trabalha_em
     IS 'Chave estrangeira número do projeto';
+
+COMMENT ON CONSTRAINT numero_projeto_positivo ON elmasri.trabalha_em
+    IS 'Número do projeto positivo';
+    
+COMMENT ON CONSTRAINT horas_positivo ON elmasri.trabalha_em
+    IS 'Número de horas positivo';
