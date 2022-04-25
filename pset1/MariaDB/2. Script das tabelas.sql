@@ -12,6 +12,8 @@ CREATE TABLE `funcionario` (
   `cpf_supervisor` char(11) DEFAULT NULL COMMENT 'CPF do supervisor do funcionário',
   `numero_departamento` int(11) DEFAULT NULL COMMENT 'Número do departamento do funcionário',
   PRIMARY KEY (`cpf`),
+  CONSTRAINT `CONSTRAINT_1` CHECK (`salario` >= 0),
+  CONSTRAINT `CONSTRAINT_2` CHECK (`numero_departamento` > 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tabela funcionário';
 
 -- uvv.departamento definition
@@ -24,7 +26,8 @@ CREATE TABLE `departamento` (
   PRIMARY KEY (`numero_departamento`),
   UNIQUE KEY `departamento_idx` (`nome_departamento`),
   KEY `funcionario_departamento_fk` (`cpf_gerente`),
-  CONSTRAINT `funcionario_departamento_fk` FOREIGN KEY (`cpf_gerente`) REFERENCES `funcionario` (`cpf`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `funcionario_departamento_fk` FOREIGN KEY (`cpf_gerente`) REFERENCES `funcionario` (`cpf`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `CONSTRAINT_1` CHECK (`numero_departamento` > 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tabela departamento';
 
 -- uvv.localizacoes_departamento definition
@@ -33,7 +36,8 @@ CREATE TABLE `localizacoes_departamento` (
   `numero_departamento` int(11) NOT NULL COMMENT 'Número do departamento',
   `local` varchar(15) NOT NULL COMMENT 'Local do departamento',
   PRIMARY KEY (`numero_departamento`,`local`),
-  CONSTRAINT `departamento_localizacoes_departamento_fk` FOREIGN KEY (`numero_departamento`) REFERENCES `departamento` (`numero_departamento`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `departamento_localizacoes_departamento_fk` FOREIGN KEY (`numero_departamento`) REFERENCES `departamento` (`numero_departamento`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `CONSTRAINT_1` CHECK (`numero_departamento` > 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tabela localização do departamento';
 
 -- uvv.projeto definition
@@ -46,7 +50,9 @@ CREATE TABLE `projeto` (
   PRIMARY KEY (`numero_projeto`),
   UNIQUE KEY `projeto_idx` (`nome_projeto`),
   KEY `departamento_projeto_fk` (`numero_departamento`),
-  CONSTRAINT `departamento_projeto_fk` FOREIGN KEY (`numero_departamento`) REFERENCES `departamento` (`numero_departamento`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `departamento_projeto_fk` FOREIGN KEY (`numero_departamento`) REFERENCES `departamento` (`numero_departamento`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `CONSTRAINT_1` CHECK (`numero_projeto` > 0),
+  CONSTRAINT `CONSTRAINT_2` CHECK (`numero_departamento` > 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tabela projeto';
 
 -- uvv.dependente definition
@@ -70,5 +76,7 @@ CREATE TABLE `trabalha_em` (
   PRIMARY KEY (`cpf_funcionario`,`numero_projeto`),
   KEY `projeto_trabalha_em_fk` (`numero_projeto`),
   CONSTRAINT `funcionario_trabalha_em_fk` FOREIGN KEY (`cpf_funcionario`) REFERENCES `funcionario` (`cpf`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `projeto_trabalha_em_fk` FOREIGN KEY (`numero_projeto`) REFERENCES `projeto` (`numero_projeto`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `projeto_trabalha_em_fk` FOREIGN KEY (`numero_projeto`) REFERENCES `projeto` (`numero_projeto`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `CONSTRAINT_1` CHECK (`numero_projeto` > 0),
+  CONSTRAINT `CONSTRAINT_2` CHECK (`horas` >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tabela trabalha em';
