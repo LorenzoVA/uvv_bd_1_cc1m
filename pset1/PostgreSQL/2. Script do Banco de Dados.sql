@@ -14,4 +14,4 @@ CREATE DATABASE uvv
 COMMENT ON DATABASE uvv
     IS 'Banco de Dados UVV';
     
-\c uvv;
+\c uvv lorenzo;
