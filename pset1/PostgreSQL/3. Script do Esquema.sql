@@ -10,5 +10,5 @@ COMMENT ON SCHEMA elmasri
 
 GRANT ALL ON SCHEMA elmasri TO lorenzo;
 
-ALTER USER "lorenzo"
-SET SEARCH_PATH TO elmasri, "$lorenzo", public;
+ALTER USER lorenzo
+SET SEARCH_PATH TO elmasri, "$user", public;
