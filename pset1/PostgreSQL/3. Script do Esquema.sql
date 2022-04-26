@@ -9,3 +9,6 @@ COMMENT ON SCHEMA elmasri
     IS 'Esquema Elmasri';
 
 GRANT ALL ON SCHEMA elmasri TO lorenzo;
+
+ALTER USER "lorenzo"
+SET SEARCH_PATH TO elmasri, "$lorenzo", public;
