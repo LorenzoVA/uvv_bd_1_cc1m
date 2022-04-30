@@ -1,4 +1,4 @@
-# PSet 1
+# PSet
 Aluno: Lorenzo Venturini de Almeida
 
 Professor: Abrantes Araújo
